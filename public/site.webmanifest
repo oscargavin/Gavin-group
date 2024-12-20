@@ -1,0 +1,9 @@
+{
+    "name": "Gavin Group",
+    "short_name": "Gavin Group",
+    "description": "AI and Software Consultancy Services",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/"
+  }
