@@ -2,10 +2,43 @@
 
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const menuVariants = {
+  closed: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+      staggerChildren: 0.07,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  closed: {
+    opacity: 0,
+    y: -10,
+  },
+  open: {
+    opacity: 1,
+    y: 0,
+  },
+};
 
 const Navigation = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,10 +48,12 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navItems = ["Solutions", "Process", "Contact"];
+
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
-        scrollPosition > 50
+        scrollPosition > 50 || isOpen
           ? "bg-white/80 shadow-sm backdrop-blur-sm"
           : "bg-transparent"
       }`}
@@ -30,7 +65,7 @@ const Navigation = () => {
 
         {/* Desktop Menu */}
         <div className="hidden space-x-8 text-sm md:flex lg:space-x-12">
-          {["Solutions", "Process", "Contact"].map((item, index) => (
+          {navItems.map((item, index) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -44,29 +79,39 @@ const Navigation = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsOpen(!isOpen)}
+          className="z-50 text-gray-700 hover:text-gray-900 md:hidden"
+          aria-label="Toggle Menu"
         >
-          {isMenuOpen ? <X /> : <Menu />}
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
 
         {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div className="fixed inset-0 top-20 z-50 bg-white/95 backdrop-blur-sm md:hidden">
-            <div className="flex flex-col items-center space-y-8 pt-12">
-              {["Solutions", "Process", "Contact"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-lg transition-colors hover:text-gray-500"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={menuVariants}
+              className="fixed inset-x-0 top-20 z-40 bg-white/95 shadow-lg backdrop-blur-sm md:hidden"
+            >
+              <motion.div className="flex flex-col items-center gap-8 p-8">
+                {navItems.map((item) => (
+                  <motion.a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    variants={itemVariants}
+                    className="text-lg font-light text-gray-900 transition-colors hover:text-gray-500"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item}
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

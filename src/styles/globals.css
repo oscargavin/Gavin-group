@@ -64,3 +64,9 @@
     80% { transform: translate(3%, 35%) }
     90% { transform: translate(-10%, 10%) }
   }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
