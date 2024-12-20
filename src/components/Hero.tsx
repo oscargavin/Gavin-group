@@ -3,6 +3,8 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import heroImage from "../../public/hero-image.jpg";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -18,6 +20,15 @@ const slideUp = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut", delay: 0.2 },
   },
 };
 
@@ -91,16 +102,25 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-5"
+            className="relative lg:col-span-5"
             initial="hidden"
             animate="visible"
-            variants={fadeIn}
+            variants={imageVariants}
           >
             <motion.div
-              className="aspect-square rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm"
-              whileHover={{ scale: 1.02, rotate: 1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            />
+              className="aspect-square overflow-hidden rounded-2xl"
+              style={{ perspective: 1000 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+              <Image
+                src={heroImage}
+                alt="Hero Image"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </motion.div>
           </motion.div>
         </div>
       </div>
