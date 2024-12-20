@@ -52,7 +52,7 @@ const Navigation = () => {
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="fixed inset-0 top-20 z-40 bg-white md:hidden">
+          <div className="fixed inset-0 top-20 z-50 bg-white/95 backdrop-blur-sm md:hidden">
             <div className="flex flex-col items-center space-y-8 pt-12">
               {["Solutions", "Process", "Contact"].map((item) => (
                 <a

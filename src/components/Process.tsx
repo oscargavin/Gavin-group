@@ -27,7 +27,7 @@ const itemVariants = {
 };
 
 const Process = () => {
-  const [ref, isInView] = useScrollReveal();
+  const [ref, isInView] = useScrollReveal({ once: true });
 
   const steps = [
     {
@@ -48,15 +48,17 @@ const Process = () => {
   ];
 
   return (
-    <motion.section
+    <section
       id="process"
       className="bg-black py-20 text-white sm:py-32"
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={containerVariants}
     >
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
+      <motion.div
+        className="mx-auto max-w-[1400px] px-4 sm:px-6"
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={containerVariants}
+      >
         <motion.h2
           className="mb-12 text-3xl font-light sm:mb-16 sm:text-4xl"
           variants={itemVariants}
@@ -80,8 +82,8 @@ const Process = () => {
             </motion.div>
           ))}
         </div>
-      </div>
-    </motion.section>
+      </motion.div>
+    </section>
   );
 };
 

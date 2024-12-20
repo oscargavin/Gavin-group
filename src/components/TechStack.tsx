@@ -1,8 +1,34 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 const TechStack = () => {
+  const [ref, isInView] = useScrollReveal({ once: true });
+
   const technologies = [
     {
       category: "AI & Machine Learning",
@@ -23,15 +49,26 @@ const TechStack = () => {
   ];
 
   return (
-    <section className="relative bg-gradient-to-br from-gray-50 to-white py-20 sm:py-32">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
-        <h2 className="mb-12 text-3xl font-light sm:mb-16 sm:text-4xl">
+    <section
+      className="relative bg-gradient-to-br from-gray-50 to-white py-20 sm:py-32"
+      ref={ref}
+    >
+      <motion.div
+        className="mx-auto max-w-[1400px] px-4 sm:px-6"
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={containerVariants}
+      >
+        <motion.h2
+          className="mb-12 text-3xl font-light sm:mb-16 sm:text-4xl"
+          variants={itemVariants}
+        >
           Our Tech Stack
-        </h2>
+        </motion.h2>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {technologies.map((tech, index) => (
-            <div key={index} className="group">
+            <motion.div key={index} className="group" variants={itemVariants}>
               <div className="rounded-xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <h3 className="mb-4 text-lg font-medium transition-colors group-hover:text-blue-500">
                   {tech.category}
@@ -48,10 +85,10 @@ const TechStack = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -60,17 +60,16 @@ const itemVariants = {
 };
 
 const Services = () => {
-  const [ref, isInView] = useScrollReveal();
+  const [ref, isInView] = useScrollReveal({ once: true });
 
   return (
-    <motion.section
-      className="bg-white py-20 sm:py-32"
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={containerVariants}
-    >
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
+    <section className="bg-white py-20 sm:py-32" ref={ref}>
+      <motion.div
+        className="mx-auto max-w-[1400px] px-4 sm:px-6"
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={containerVariants}
+      >
         <motion.h2
           className="mb-12 text-3xl font-light sm:mb-16 sm:text-4xl"
           variants={itemVariants}
@@ -120,8 +119,8 @@ const Services = () => {
             ))}
           </motion.div>
         </div>
-      </div>
-    </motion.section>
+      </motion.div>
+    </section>
   );
 };
 
